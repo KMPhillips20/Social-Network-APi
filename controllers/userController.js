@@ -1,7 +1,7 @@
 const { User, Thought } = require('../models');
 
 module.exports = {
-  // ------------- Get All Users -----------
+  // ------------- Get All users
   getUsers(req, res) {
     User.find()
       .select('-__v')
@@ -59,8 +59,6 @@ module.exports = {
       )
       .catch((err) => res.status(500).json(err));
   },
-
-  
   // ------------------ Delete a user and all their thoughts -----------------
   deleteUser(req, res) {
     User.findOneAndRemove({ _id: req.params.userId })
