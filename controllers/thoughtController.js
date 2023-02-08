@@ -24,7 +24,7 @@ module.exports = {
       .catch((err) => res.status(500).json(err));
   },
 
-  // ----------- Create A Thought -------------
+  // ----------- Create Thought -------------
   createThought(req, res) {
     Thought.create(req.body)
       .then((thought) => {
@@ -49,5 +49,18 @@ module.exports = {
         console.log(err);
         return res.status(500).json(err);
       });
+  },
+
+
+   //------------ Delete Thought -------------
+   deleteThought(req, res) {
+    Thought.findOneAndDelete({ _id: req.params.thoughtId })
+      .then((thought) =>
+        !thought
+          ? res.status(404).json({ message: 'There is no thought with that ID' })
+          : Expression.deleteMany({ _id: { $in: thought.expression } })
+      )
+      .then(() => res.json({ message: 'Thought and expression was deleted!' }))
+      .catch((err) => res.status(500).json(err));
   },
 };
