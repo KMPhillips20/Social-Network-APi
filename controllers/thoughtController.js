@@ -79,5 +79,23 @@ module.exports = {
         .catch((err) => res.status(500).json(err));
     },
   
+    createExpression(req, res) {
+      Thought.findOneAndUpdate(
+        { _id: req.params.thoughtId },
+        { $addToSet: { expression: req.body } },
+        { runValidators: true, new: true }
+      )
+        .then((thought) =>
+          !thought
+            ? res
+              .status(404)
+              .json({ message: 'There is no thought with that ID' })
+            : res.json(thought)
+        )
+        .catch((err) => {
+          console.log(err)
+          res.status(500).json(err)
+        });
+    },
     
 };
