@@ -85,13 +85,13 @@ module.exports = {
   },
 
 
-  // --------------- Add Someone -----------
-  addSomeone(req, res) {
+  // --------------- Add Friend-----------
+  addFriend(req, res) {
     console.log('You are adding someone');
     console.log(req.body);
     User.findOneAndUpdate(
       { _id: req.params.userId },
-      { $addToSet: { someone: req.params.someoneId } },
+      { $addToSet: { friends: req.params.friendId } },
     )
       .then((user) =>
         !user
@@ -105,10 +105,10 @@ module.exports = {
 
 
   // -------------- Remove Someone ------------
-  removeSomeone(req, res) {
+  removeFriend(req, res) {
     User.findOneAndUpdate(
       { _id: req.params.userId },
-      { $pull: { someone: req.params.someoneId } },
+      { $pull: { friends: req.params.friendId } },
     )
       .then((user) =>
         !user
