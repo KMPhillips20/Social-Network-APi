@@ -8,7 +8,7 @@ module.exports = {
   getThoughts(req, res) {
     Thought.find()
       .select('-__v')
-      .then((thought) => res.json(thought))
+      .then((thoughts) => res.json(thoughts))
       .catch((err) => res.status(500).json(err));
   },
 
@@ -31,7 +31,7 @@ module.exports = {
         console.log(thought)
         return User.findOneAndUpdate(
           { _id: req.body.userId },
-          { $addToSet: { thought: thought._id } },
+          { $addToSet: { thoughts: thought._id } },
           {
             runValidators: false,
             new: true
@@ -81,10 +81,10 @@ module.exports = {
 
 
   // ----------- Create Expression ----------------
-  createExpression(req, res) {
+  createReaction(req, res) {
     Thought.findOneAndUpdate(
       { _id: req.params.thoughtId },
-      { $addToSet: { expression: req.body } },
+      { $addToSet: { reactions: req.body } },
       { runValidators: true, new: true }
     )
       .then((thought) =>
@@ -102,10 +102,10 @@ module.exports = {
 
 
   //  --------------- Delete Expression -------------
-  deleteExpression(req, res) {
+  deleteReaction(req, res) {
     Thought.findOneAndUpdate(
       { _id: req.params.thoughtId },
-      { $pull: { expression: { expressionId: req.params.expressionId } } },
+      { $pull: { reactions: { reactionId: req.params.reactionId } } },
       { runValidators: true, new: true }
     )
       .then((thought) =>
