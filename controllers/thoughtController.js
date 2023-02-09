@@ -52,8 +52,8 @@ module.exports = {
   },
 
 
-   //------------ Delete Thought -------------
-   deleteThought(req, res) {
+  //------------ Delete Thought -------------
+  deleteThought(req, res) {
     Thought.findOneAndDelete({ _id: req.params.thoughtId })
       .then((thought) =>
         !thought
@@ -64,38 +64,61 @@ module.exports = {
       .catch((err) => res.status(500).json(err));
   },
 
-    //----------  Update Thought ---------------
-    updateThought(req, res) {
-      Thought.findOneAndUpdate(
-        { _id: req.params.thoughtId },
-        { $set: req.body },
-        { runValidators: true, new: true }
+  //----------  Update Thought ---------------
+  updateThought(req, res) {
+    Thought.findOneAndUpdate(
+      { _id: req.params.thoughtId },
+      { $set: req.body },
+      { runValidators: true, new: true }
+    )
+      .then((thought) =>
+        !thought
+          ? res.status(404).json({ message: 'No thought with this id!' })
+          : res.json(course)
       )
-        .then((thought) =>
-          !thought
-            ? res.status(404).json({ message: 'No thought with this id!' })
-            : res.json(course)
-        )
-        .catch((err) => res.status(500).json(err));
-    },
-  
-    createExpression(req, res) {
-      Thought.findOneAndUpdate(
-        { _id: req.params.thoughtId },
-        { $addToSet: { expression: req.body } },
-        { runValidators: true, new: true }
+      .catch((err) => res.status(500).json(err));
+  },
+
+
+  // ----------- Create Expression ----------------
+  createExpression(req, res) {
+    Thought.findOneAndUpdate(
+      { _id: req.params.thoughtId },
+      { $addToSet: { expression: req.body } },
+      { runValidators: true, new: true }
+    )
+      .then((thought) =>
+        !thought
+          ? res
+            .status(404)
+            .json({ message: 'There is no thought with that ID' })
+          : res.json(thought)
       )
-        .then((thought) =>
-          !thought
-            ? res
-              .status(404)
-              .json({ message: 'There is no thought with that ID' })
-            : res.json(thought)
-        )
-        .catch((err) => {
-          console.log(err)
-          res.status(500).json(err)
-        });
-    },
-    
-};
+      .catch((err) => {
+        console.log(err)
+        res.status(500).json(err)
+      });
+  },
+
+
+  //  --------------- Delete Expression -------------
+  deleteExpression(req, res) {
+    Thought.findOneAndUpdate(
+      { _id: req.params.thoughtId },
+      { $pull: { expression: { expressionId: req.params.expressionId } } },
+      { runValidators: true, new: true }
+    )
+      .then((thought) =>
+        !thought
+          ? res
+            .status(404)
+            .json({ message: 'There is no thought with that ID' })
+          : res.json(thought)
+      )
+      .catch((err) => {
+        console.log(err)
+        res.status(500).json(err)
+      });
+
+  },
+}
