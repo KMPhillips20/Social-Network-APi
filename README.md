@@ -27,7 +27,11 @@ JavaScript Date object to format timestamps.
 ***
 
 ## Visuals
+![Friends](./pics/friend.jpg)
 
+![All-User](./pics/all_users.jpg)
+
+![All-Thought](./pics/all_thoughts.jpg)
 ***
 
 ## Links
@@ -35,5 +39,6 @@ Link to GitHub:
 [Social-Network-APi](https://github.com/KMPhillips20/Social-Network-APi)
 
 Link to walkthrough video:
+[Walk-Through](https://drive.google.com/file/d/1qXh1dwev78fIrZ0CrvePf8apVfQw7wG_/view)
 
 ***
