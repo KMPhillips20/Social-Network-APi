@@ -58,9 +58,9 @@ module.exports = {
       .then((thought) =>
         !thought
           ? res.status(404).json({ message: 'There is no thought with that ID' })
-          : Expression.deleteMany({ _id: { $in: thought.expression } })
+          : Expression.deleteMany({ _id: { $in: thought.reactions } })
       )
-      .then(() => res.json({ message: 'Thought and expression was deleted!' }))
+      .then(() => res.json({ message: 'Thought and reaction was deleted!' }))
       .catch((err) => res.status(500).json(err));
   },
 
@@ -80,7 +80,7 @@ module.exports = {
   },
 
 
-  // ----------- Create Expression ----------------
+  // ----------- Create Reaction ----------------
   createReaction(req, res) {
     Thought.findOneAndUpdate(
       { _id: req.params.thoughtId },
